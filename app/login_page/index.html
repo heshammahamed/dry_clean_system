@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        label , input {
+            display: block;
+        }
+        label {
+            padding-bottom: .75rem; 
+        }
+        input {
+            margin-bottom: 1.25rem;
+        }
+        body {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #submit_botton{
+            margin: auto;
+            width : 50%;
+        }
+
+    </style>
+    <title>login</title>
+</head>
+<body>
+    <form id="form_submit">
+        <label for="u-n">اسم المستخدم</label>
+        <input type="text" id="u_n" required>
+        <label for ="u_p">كلمه السر</label>
+        <input type="password" id="u_p" required>
+        <input type="submit" id="submit_botton" value="تسجيل"/>
+    </form>
+    <script src="main.js"></script>
+</body>
+</html> 
