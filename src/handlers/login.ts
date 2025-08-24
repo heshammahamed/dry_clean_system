@@ -1,7 +1,9 @@
 import { Response, Request } from "express"
 import { usersD } from "src/db/schema/schemaDataTypes.js"
-import { checkPassword } from "../auth.js"
+import { checkPassword , makeJwt , makeRefreshToken } from "../auth.js"
 import { getUserData } from "src/db/query/getUserData.js"
+import { createRefreshTokenQ } from "src/db/query/refreshToken.js"
+import { configer } from "src/config.js"
 
 /*
 (1)
@@ -40,5 +42,22 @@ export async function handleLogin (req : Request , res : Response) {
         create access token refresh token and set them as ckokiess
     */
 
+    const access_token : string = makeJwt(user.shopId , user.owner ? "admin" : "worker")
+
+    const refresh_token : string = makeRefreshToken()
+    const token_db : string | undefined = await createRefreshTokenQ(user.id , refresh_token)
+
+    if (!token_db) {
+        // it will not happen cause if there a problem it will be chached in the try/catch in makeing the query
+        // thorw error here to say that the refresh token is not created for i dont know the resonse
+        throw new Error("there is error in creating the refresh token")
+    }
+
+    res.setHeader("Set-Cookie", [
+      `access_token=${access_token}; HttpOnly; Secure; SameSite=Strict; Path=/; Max-Age=${configer.accesstoekn}`,
+      `refresh_token=${refresh_token}; HttpOnly; Secure; SameSite=Strict; Path=/; Max-Age=${configer.refreshtokenduration}`
+    ]);
     
+    res.sendFile("/main/")
+    return
 }

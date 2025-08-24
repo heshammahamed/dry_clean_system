@@ -3,5 +3,6 @@ export type usersD = {
     name : string,
     password : string,
     owner : boolean,
-    phonenumber : string
+    phonenumber : string,
+    shopId : string
 }
