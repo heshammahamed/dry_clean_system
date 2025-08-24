@@ -1,9 +1,9 @@
 import { Response, Request } from "express"
-import { usersD } from "src/db/schema/schemaDataTypes.js"
+import { usersD } from "../db/schema/schemaDataTypes.js"
 import { checkPassword , makeJwt , makeRefreshToken } from "../auth.js"
-import { getUserData } from "src/db/query/getUserData.js"
-import { createRefreshTokenQ } from "src/db/query/refreshToken.js"
-import { configer } from "src/config.js"
+import { getUserData } from "../db/query/getUserData.js"
+import { createRefreshTokenQ } from "../db/query/refreshToken.js"
+import { configer } from "../config.js"
 
 /*
 (1)
