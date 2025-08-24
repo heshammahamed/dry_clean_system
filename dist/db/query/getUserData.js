@@ -8,6 +8,6 @@ export async function getUserData(phonenumber) {
         return user?.rows[0];
     }
     catch (err) {
-        throw new Error("db error");
+        throw new Error(`db error : ${err.message}`);
     }
 }

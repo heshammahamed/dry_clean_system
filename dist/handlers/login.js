@@ -2,6 +2,7 @@ import { checkPassword, makeJwt, makeRefreshToken } from "../auth.js";
 import { getUserData } from "../db/query/getUserData.js";
 import { createRefreshTokenQ } from "../db/query/refreshToken.js";
 import { configer } from "../config.js";
+import { BadRequest, NotFound } from "../errorClassess.js";
 /*
 (1)
     check the usernama and the password for the given request are exist
@@ -13,21 +14,20 @@ import { configer } from "../config.js";
 */
 export async function handleLogin(req, res) {
     if (!req.body.phonenumber) {
-        // internet connection error
-        throw new Error("username");
+        throw new BadRequest("في مشكله في الشبكه عندك");
     }
     if (!req.body.password) {
         // internet connection error
-        throw new Error("password");
+        throw new BadRequest("في مشكله في الشبكه عندك");
     }
     const user = await getUserData(req.body.phonenumber);
     if (!user) {
         // wrong inputs
-        throw new Error("username is not found");
+        throw new NotFound("رقم التليفون غلط");
     }
     if (!(await checkPassword(req.body.password, user.password))) {
         // wrong inputs
-        throw new Error("password is not correct");
+        throw new NotFound("كلمه السر غلط");
     }
     /*
         create access token refresh token and set them as ckokiess
@@ -35,11 +35,6 @@ export async function handleLogin(req, res) {
     const access_token = makeJwt(user.shopId, user.owner ? "admin" : "worker");
     const refresh_token = makeRefreshToken();
     const token_db = await createRefreshTokenQ(user.id, refresh_token);
-    if (!token_db) {
-        // it will not happen cause if there a problem it will be chached in the try/catch in makeing the query
-        // thorw error here to say that the refresh token is not created for i dont know the resonse
-        throw new Error("there is error in creating the refresh token");
-    }
     res.setHeader("Set-Cookie", [
         `access_token=${access_token}; HttpOnly; Secure; SameSite=Strict; Path=/; Max-Age=${configer.accesstoekn}`,
         `refresh_token=${refresh_token}; HttpOnly; Secure; SameSite=Strict; Path=/; Max-Age=${configer.refreshtokenduration}`

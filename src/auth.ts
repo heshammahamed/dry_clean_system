@@ -3,6 +3,7 @@ import { hash , compare} from "bcrypt";
 import JWT , { JwtPayload } from "jsonwebtoken";
 import { configer } from "./config.js";
 import { randomBytes } from "crypto";
+import { Unauthorized } from "./errorClassess.js";
 const {sign , verify} = JWT;
 
 type payload = Pick<JwtPayload , "iss" | "sub" | "iat" | "exp">;
@@ -32,7 +33,7 @@ export function makeJwt (shopId : string ,role : string ) : string {
         "exp" : issuedAT + configer.accesstoekn
     }
 
-    return sign(payload , configer.secretkey )
+    return sign(payload , configer.secretkey)
 }
 
 export function validateJWT (tokenstring : string) : string {
@@ -43,8 +44,8 @@ export function validateJWT (tokenstring : string) : string {
             throw new Error("it will not happen but i do it cause of the type script")
         }
         return payload.sub
-    }catch (err) {
-        throw new Error("the token is in valid")
+    }catch(err : any) {
+        throw new Unauthorized(`--the token is in valid : ${err.message}`)
     }
 }
 

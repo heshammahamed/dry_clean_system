@@ -2,6 +2,7 @@ import { hash, compare } from "bcrypt";
 import JWT from "jsonwebtoken";
 import { configer } from "./config.js";
 import { randomBytes } from "crypto";
+import { Unauthorized } from "./errorClassess.js";
 const { sign, verify } = JWT;
 export function makeRefreshToken() {
     return randomBytes(configer.refreshtokenlength).toString("hex");
@@ -33,7 +34,7 @@ export function validateJWT(tokenstring) {
         return payload.sub;
     }
     catch (err) {
-        throw new Error("the token is in valid");
+        throw new Unauthorized(`--the token is in valid : ${err.message}`);
     }
 }
 export async function hashPassword(password) {
