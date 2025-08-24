@@ -24,7 +24,7 @@ export async function handleLogin (req : Request , res : Response) {
         throw new Error("password")
     }
 
-    const user : usersD = await getUserData(req.body.phonenumber)
+    const user : usersD | undefined = await getUserData(req.body.phonenumber)
 
     if (!user) {
         // wrong inputs
@@ -39,4 +39,6 @@ export async function handleLogin (req : Request , res : Response) {
     /*
         create access token refresh token and set them as ckokiess
     */
+
+    
 }

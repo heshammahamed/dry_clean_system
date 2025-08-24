@@ -6,13 +6,15 @@ const accesstoken = process.env.ACCESS_TOKEN_DURATION ? Number(process.env.ACCES
 
 const secretkey = process.env.SECRET_KEY_TOKEN ? process.env.SECRET_KEY_TOKEN : "xx"
 const refreshtokenlength = process.env.REFRESH_TOKEN_LENGTH ? Number(process.env.REFRESH_TOKEN_LENGTH) : 16
+const refreshtokenduration = process.env.REFRESH_TOKEN_DURATION ? Number(process.env.REFRESH_TOKEN_DURATION) : 5184000
 
 type config = {
     port : number,
     dbpassword : string,
     accesstoekn : number,
     secretkey : string,
-    refreshtokenlength : number
+    refreshtokenlength : number,
+    refreshtokenduration : number
 }
 
 export const configer : config =  {
@@ -20,5 +22,6 @@ export const configer : config =  {
     dbpassword : password,
     accesstoekn : accesstoken,
     secretkey : secretkey,
-    refreshtokenlength : refreshtokenlength
+    refreshtokenlength : refreshtokenlength,
+    refreshtokenduration : refreshtokenduration
 }

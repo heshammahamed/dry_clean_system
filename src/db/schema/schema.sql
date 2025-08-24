@@ -7,16 +7,12 @@ CREATE TABLE users(
 )
 
 CREATE TABLE refreshtokens (
-    token VARCHAR(32) PRIMARY KEY,
-    expiredAt DATE NOT NULL,
-    createdAt DATE NOT NULL,
-    updatedAt DATE NOT NULL,
-    revokedAt DATE,
-    userId INT NOT NULL,
-    CONSTRAINT fk_user
-        FOREIGN KEY (user_id)
-        REFERENCES users(id)
-        ON DELETE CASCADE
+    token varchar(32) PRIMARY KEY,
+    userId uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    expiredAt TIMESTAMP NOT NULL,
+    createdAt TIMESTAMP NOT NULL,
+    updatedAt TIMESTAMP NOT NULL,
+    revokedAt TIMESTAMP
 );
 
 CREATE EXTENSION IF NOT EXISTS "pgcrypto";
