@@ -17,7 +17,7 @@ export function getBearerToken(req) {
 export function makeJwt(shopId, role) {
     const issuedAT = Math.floor(Date.now() / 1000);
     const payload = {
-        "iss": role,
+        "iss": role ? "admin" : "worker",
         "sub": shopId,
         "iat": issuedAT,
         "exp": issuedAT + configer.accesstoekn
@@ -28,10 +28,13 @@ export function validateJWT(tokenstring) {
     let payload;
     try {
         payload = verify(tokenstring, configer.secretkey);
-        if (typeof payload.sub !== "string") {
+        if (typeof payload === "string") {
             throw new Error("it will not happen but i do it cause of the type script");
         }
-        return payload.sub;
+        if (payload.sub == undefined) {
+            throw new Error("what the duck !! where is the shop id from JWT");
+        }
+        return { admin: payload.iss === "admin", shopId: payload.sub };
     }
     catch (err) {
         throw new Unauthorized(`--the token is in valid : ${err.message}`);

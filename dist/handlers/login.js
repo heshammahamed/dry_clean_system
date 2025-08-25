@@ -33,7 +33,7 @@ export async function handleLogin(req, res) {
     /*
         create access token refresh token and set them as ckokiess
     */
-    const access_token = makeJwt(user.shopId, user.owner ? "admin" : "worker");
+    const access_token = makeJwt(user.shopId, user.owner);
     const refresh_token = makeRefreshToken();
     const token_db = await createRefreshTokenQ(user.id, refresh_token);
     res.setHeader("Set-Cookie", [

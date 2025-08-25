@@ -13,7 +13,7 @@ CREATE TABLE refreshtokens (
     expiredAt TIMESTAMP NOT NULL,
     createdAt TIMESTAMP NOT NULL,
     updatedAt TIMESTAMP NOT NULL,
-    revokedAt TIMESTAMP
+    revokedAt TIMESTAMP SET DEFAULT NULL 
 );
 
 CREATE TABLE shops (

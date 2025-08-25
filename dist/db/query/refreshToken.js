@@ -20,17 +20,19 @@ export async function createRefreshTokenQ(userId, token) {
     }
 }
 // get token 
-// you must make it return the shopid and role from the user id !!!!!!!!!!!!
 export async function checkRefreshTokenQ(token) {
     const now = new Date();
     try {
-        const result = await pool.query(`SELECT userId 
-           FROM refreshtokens 
-           WHERE token = $1 
-             AND $2 <= expiredAt 
-             AND revokedAt IS NULL
-           LIMIT 1`, [token, now]);
-        return result.rows[0]?.userId;
+        const result = await pool.query(`SELECT admin, shopId
+            FROM users
+            WHERE user_id IN (
+                SELECT userid
+                FROM refreshtokens
+                WHERE token = $1
+                  AND $2 <= expiredAt
+                  AND revokedAt IS NULL
+            )`, [token, now]);
+        return result.rows[0];
     }
     catch (err) {
         throw new Error(`db Error : ${err.message}`);

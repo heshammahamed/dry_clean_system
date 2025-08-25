@@ -43,14 +43,14 @@ export async function handleLogin (req : Request , res : Response) {
         create access token refresh token and set them as ckokiess
     */
 
-    const access_token : string = makeJwt(user.shopId , user.owner ? "admin" : "worker")
+    const access_token : string = makeJwt(user.shopId , user.owner)
 
     const refresh_token : string = makeRefreshToken()
     const token_db : string | undefined = await createRefreshTokenQ(user.id , refresh_token)
 
     res.setHeader("Set-Cookie", [
-      `access_token=${access_token}; HttpOnly; Secure; SameSite=Strict; Path=/; Max-Age=${configer.accesstoekn}`,
-      `refresh_token=${refresh_token}; HttpOnly; Secure; SameSite=Strict; Path=/; Max-Age=${configer.refreshtokenduration}`,
+      `access_token=${access_token}; HttpOnly; Secure; SameSite=Strict; Path=/api; Max-Age=${configer.accesstoekn}`,
+      `refresh_token=${refresh_token}; HttpOnly; Secure; SameSite=Strict; Path=/api; Max-Age=${configer.refreshtokenduration}`,
     ]);
 
     res.type("html").sendFile(path.join(configer.frontmainpath , 'main/index.html'))

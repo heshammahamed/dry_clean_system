@@ -4,12 +4,17 @@ process.loadEnvFile('.env')
 
 //  here there is alot of error handling that will close system
 
-const port = process.env.PORT ? Number(process.env.PORT) : 8080
-const password = process.env.DB_PASSWORD ? process.env.DB_PASSWORD : "xx"
-const accesstoken = process.env.ACCESS_TOKEN_DURATION ? Number(process.env.ACCESS_TOKEN_DURATION) : 3600
-const secretkey = process.env.SECRET_KEY_TOKEN ? process.env.SECRET_KEY_TOKEN : "xx"
-const refreshtokenlength = process.env.REFRESH_TOKEN_LENGTH ? Number(process.env.REFRESH_TOKEN_LENGTH) : 16
-const refreshtokenduration = process.env.REFRESH_TOKEN_DURATION ? Number(process.env.REFRESH_TOKEN_DURATION) : 5184000
+if (!process.env.PORT || !process.env.DB_PASSWORD || !process.env.ACCESS_TOKEN_DURATION || !process.env.SECRET_KEY_TOKEN || !process.env.REFRESH_TOKEN_LENGTH || !process.env.REFRESH_TOKEN_DURATION) {
+    console.error("Missing environment variables. Exiting...");
+    process.exit(1);
+}
+
+const port = Number(process.env.PORT)
+const password = process.env.DB_PASSWORD
+const accesstoken =  Number(process.env.ACCESS_TOKEN_DURATION) 
+const secretkey = process.env.SECRET_KEY_TOKEN
+const refreshtokenlength = Number(process.env.REFRESH_TOKEN_LENGTH)
+const refreshtokenduration = Number(process.env.REFRESH_TOKEN_DURATION)
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.join(path.dirname(__filename) , '../app');

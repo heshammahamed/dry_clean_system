@@ -5,6 +5,7 @@ import { configer } from "./config.js";
 import { randomBytes } from "crypto";
 import { Unauthorized } from "./errorClassess.js";
 const {sign , verify} = JWT;
+import { retutnFromValidate } from "./types/types.js"
 
 type payload = Pick<JwtPayload , "iss" | "sub" | "iat" | "exp">;
 
@@ -23,11 +24,11 @@ export function getBearerToken(req : Request) : string {
 }
 
 
-export function makeJwt (shopId : string ,role : string ) : string {
+export function makeJwt (shopId : string ,role : boolean ) : string {
     const issuedAT : number = Math.floor(Date.now() / 1000);
 
     const payload : payload = {
-        "iss" : role,
+        "iss" : role ? "admin" : "worker",
         "sub" : shopId,
         "iat" : issuedAT,
         "exp" : issuedAT + configer.accesstoekn
@@ -36,14 +37,19 @@ export function makeJwt (shopId : string ,role : string ) : string {
     return sign(payload , configer.secretkey)
 }
 
-export function validateJWT (tokenstring : string) : string {
+export function validateJWT (tokenstring : string) : retutnFromValidate {
     let payload;
     try {
-        payload = verify(tokenstring , configer.secretkey)
-        if (typeof payload.sub !== "string") {
+        payload  = verify(tokenstring , configer.secretkey)
+        if (typeof payload === "string") {
             throw new Error("it will not happen but i do it cause of the type script")
         }
-        return payload.sub
+
+        if (payload.sub == undefined) {
+            throw new Error("what the duck !! where is the shop id from JWT")
+        }
+
+        return {admin : payload.iss === "admin", shopId : payload.sub}
     }catch(err : any) {
         throw new Unauthorized(`--the token is in valid : ${err.message}`)
     }
@@ -56,3 +62,5 @@ export async function hashPassword (password : string) : Promise<string> {
 export async function checkPassword(password : string , hash : string) : Promise<boolean> {
     return await compare(password , hash)
 }
+
+

@@ -1,6 +1,6 @@
 import { pool } from "../db.js";
 import { configer } from "../../config.js";
-
+import {retutnFromValidate } from "../../types/types.js"
 
 
 
@@ -16,6 +16,10 @@ export async function createRefreshTokenQ(userId: string, token: string) : Promi
     try {
         const result = await pool.query(
             `
+            WITH deleted AS (
+                DELETE FROM refreshtokens WHERE userId = $2
+            )
+                
             INSERT INTO refreshtokens (token, userId, expiredAt)
             VALUES ($1, $2, $3)
             RETURNING *
@@ -30,21 +34,23 @@ export async function createRefreshTokenQ(userId: string, token: string) : Promi
 
 
 // get token 
-// you must make it return the shopid and role from the user id !!!!!!!!!!!!
-export async function checkRefreshTokenQ(token : string) : Promise<string | undefined> {
+
+export async function checkRefreshTokenQ(token : string) : Promise<retutnFromValidate | undefined> {
     const now = new Date();
     try {
         const result = await pool.query(
-          `SELECT userId 
-           FROM refreshtokens 
-           WHERE token = $1 
-             AND $2 <= expiredAt 
-             AND revokedAt IS NULL
-           LIMIT 1`,
+          `SELECT admin, shopId
+            FROM users
+            WHERE user_id IN (
+                SELECT userid
+                FROM refreshtokens
+                WHERE token = $1
+                  AND $2 <= expiredAt
+                  AND revokedAt IS NULL
+            )`,
           [token, now]
         );
-
-        return result.rows[0]?.userId
+        return result.rows[0]
     }catch(err : any) {
         throw new Error(`db Error : ${err.message}`)
     }
