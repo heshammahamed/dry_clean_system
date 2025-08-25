@@ -1,3 +1,5 @@
+import { fileURLToPath } from "url";
+import path from "path";
 process.loadEnvFile('.env')
 
 //  here there is alot of error handling that will close system
@@ -9,13 +11,18 @@ const secretkey = process.env.SECRET_KEY_TOKEN ? process.env.SECRET_KEY_TOKEN : 
 const refreshtokenlength = process.env.REFRESH_TOKEN_LENGTH ? Number(process.env.REFRESH_TOKEN_LENGTH) : 16
 const refreshtokenduration = process.env.REFRESH_TOKEN_DURATION ? Number(process.env.REFRESH_TOKEN_DURATION) : 5184000
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.join(path.dirname(__filename) , '../app');
+
 type config = {
     port : number,
     dbpassword : string,
     accesstoekn : number,
     secretkey : string,
     refreshtokenlength : number,
-    refreshtokenduration : number
+    refreshtokenduration : number,
+    frontmainpath : string
+
 }
 
 export const configer : config =  {
@@ -24,5 +31,6 @@ export const configer : config =  {
     accesstoekn : accesstoken,
     secretkey : secretkey,
     refreshtokenlength : refreshtokenlength,
-    refreshtokenduration : refreshtokenduration
+    refreshtokenduration : refreshtokenduration,
+    frontmainpath : __dirname
 }

@@ -1,15 +1,12 @@
 import { configer } from "./config.js";
 import express, { json , Response, Request } from "express"
 import path from "path";
-import { fileURLToPath } from "url";
 import {handleLogin} from "./handlers/login.js"
 import {errorMiddlware} from "./middlewars/errors.js"
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 const app = express();
 
-app.use(express.static(path.join(__dirname, "../app")));
+app.use(express.static(configer.frontmainpath));
 app.use(express.json())
 
 

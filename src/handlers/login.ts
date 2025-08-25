@@ -5,6 +5,7 @@ import { getUserData } from "../db/query/getUserData.js"
 import { createRefreshTokenQ } from "../db/query/refreshToken.js"
 import { configer } from "../config.js"
 import { BadRequest , NotFound } from "../errorClassess.js"
+import path from "path"
 
 /*
 (1)
@@ -49,9 +50,9 @@ export async function handleLogin (req : Request , res : Response) {
 
     res.setHeader("Set-Cookie", [
       `access_token=${access_token}; HttpOnly; Secure; SameSite=Strict; Path=/; Max-Age=${configer.accesstoekn}`,
-      `refresh_token=${refresh_token}; HttpOnly; Secure; SameSite=Strict; Path=/; Max-Age=${configer.refreshtokenduration}`
+      `refresh_token=${refresh_token}; HttpOnly; Secure; SameSite=Strict; Path=/; Max-Age=${configer.refreshtokenduration}`,
     ]);
-    
-    res.sendFile("/main/")
+
+    res.type("html").sendFile(path.join(configer.frontmainpath , 'main/index.html'))
     return
 }

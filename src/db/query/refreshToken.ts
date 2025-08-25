@@ -9,7 +9,7 @@ import { configer } from "../../config.js";
     userId , token -> token from db after it inserted
 */
 export async function createRefreshTokenQ(userId: string, token: string) : Promise<string | undefined> {
-    const expireDate = new Date(Date.now() + configer.refreshtokenduration);
+    const expireDate = new Date(Date.now() + configer.refreshtokenduration * 1000);
 
     const values = [token, userId, expireDate];
 

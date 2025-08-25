@@ -1,5 +1,5 @@
 import { BadRequest, NotFound, Unauthorized } from "../errorClassess.js";
-function errorMiddlware(error, req, res, nextFun) {
+export function errorMiddlware(error, req, res, nextFun) {
     console.error(error.message);
     if (error instanceof Unauthorized) {
         return res.status(401).sendFile('/login/');
