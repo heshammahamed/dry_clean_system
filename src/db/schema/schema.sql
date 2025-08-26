@@ -38,11 +38,12 @@ CREATE TABLE orders (
     id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
     price_total NUMERIC(10,2),
     prepaid NUMERIC(10,2),
-    status_ boolean DEFAULT false;
+    status_ boolean DEFAULT false,
     day_receive DATE,
     hour_receive TIME,
     shopId uuid NOT NULL REFERENCES shops(id),
-    customerId uuid NOT NULL REFERENCES customers(id)
+    customerId uuid NOT NULL REFERENCES customers(id),
+    delevired boolean DEFAULT false
 ) 
 
 CREATE EXTENSION IF NOT EXISTS "pgcrypto";

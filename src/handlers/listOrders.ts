@@ -1,5 +1,5 @@
 import { Request , Response , NextFunction } from "express";
-import { getUserData } from "../db/query/getListOrders.js"
+import { getListOrdersQ } from "../db/query/getListOrders.js"
 /*
     the inputs will must be there and in the correct
      formate so its not need to make conditions for it
@@ -8,11 +8,11 @@ import { getUserData } from "../db/query/getListOrders.js"
 export async function handleOrdersList (req : Request , res : Response) {
     // you must be sure that the query is sent
     if (typeof req.query.date == "string") {
-        const result = await getUserData((req as any).user.shopId ,req.query.date)
+        const result = await getListOrdersQ((req as any).user.shopId ,req.query.date)
         res.setHeader("Control-Control" , "public , max-age=30");
         return res.status(200).json(result)
     }else {
-        throw new Error("shut")
+        throw new Error("shit!!")
     }
 }
     

@@ -3,8 +3,8 @@ import express from "express";
 import { handleLogin } from "./handlers/login.js";
 import { errorMiddlware } from "./middlewars/errors.js";
 import cookieParser from "cookie-parser";
-import { checkValidationMiddleware } from "./middlewars/authantication.js";
 import { handleOrdersList } from "./handlers/listOrders.js";
+import { handleCustomerOrder } from "./handlers/customersOrders.js";
 const app = express();
 app.use(cookieParser());
 // dont forget to add a five icon to your project cause browser automatically send this request
@@ -13,7 +13,8 @@ app.use(express.static(configer.frontmainpath));
 app.use(express.json());
 // the cokkies will always check excpect if you make route request
 app.post("/api/login", handleLogin);
-app.use(checkValidationMiddleware);
+app.get("/api/customerOrders", handleCustomerOrder);
+// app.use(checkValidationMiddleware)
 app.get("/api/orders", handleOrdersList);
 app.use(errorMiddlware);
 app.listen(configer.port, () => {

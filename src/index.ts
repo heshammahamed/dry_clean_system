@@ -5,6 +5,7 @@ import {errorMiddlware} from "./middlewars/errors.js"
 import cookieParser from "cookie-parser"
 import { checkValidationMiddleware } from "./middlewars/authantication.js"
 import { handleOrdersList } from "./handlers/listOrders.js"
+import {  handleCustomerOrder } from "./handlers/customersOrders.js"
 
 const app = express();
 app.use(cookieParser())
@@ -17,10 +18,12 @@ app.use(express.json())
 // the cokkies will always check excpect if you make route request
 
 app.post("/api/login" , handleLogin);
+app.get("/api/customerOrders" , handleCustomerOrder);
 
-app.use(checkValidationMiddleware)
+// app.use(checkValidationMiddleware)
 
 app.get("/api/orders" , handleOrdersList);
+
 
 app.use(errorMiddlware)
 app.listen(configer.port , () => {

@@ -1,7 +1,5 @@
 import {Request , Response , NextFunction} from "express";
 import { BadRequest, NotFound, Unauthorized } from "../errorClassess.js";
-import path from "path";
-import { configer } from "../config.js";
 
 export function errorMiddlware (error : Error , req : Request , res : Response , nextFun : NextFunction) {
     console.error(error.message , req.baseUrl);

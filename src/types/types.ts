@@ -11,5 +11,6 @@ export type order = {
     day_receive : string,
     hour_receive  : string,
     customerId : string,
-    shopID : string
+    shopID : string,
+    delevired : boolean
 }
