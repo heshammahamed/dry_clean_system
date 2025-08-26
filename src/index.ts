@@ -18,12 +18,11 @@ app.use(express.json())
 // the cokkies will always check excpect if you make route request
 
 app.post("/api/login" , handleLogin);
-app.get("/api/customerOrders" , handleCustomerOrder);
 
-// app.use(checkValidationMiddleware)
+app.use(checkValidationMiddleware)
 
 app.get("/api/orders" , handleOrdersList);
-
+app.get("/api/customerOrders" , handleCustomerOrder);
 
 app.use(errorMiddlware)
 app.listen(configer.port , () => {

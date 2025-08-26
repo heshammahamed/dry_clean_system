@@ -11,12 +11,7 @@ export async function handleCustomerOrder(req : Request , res : Response) {
         throw new BadRequest("لازم تكتب اسم العميل او رقم تليفونه")
     }
 
-    // test case
-
-    const result : Array<order> = await getCustomerData(phonenumber , name , 'f7236b8e-599a-4f90-98a8-f78482785946');
-    
-    // real one
-    // const result : Array<order> = await getCustomerData(phonenumber , name , (req as any).users.shopId);
+    const result : Array<order> = await getCustomerData(phonenumber , name , (req as any).users.shopId);
     
     return res.status(200).json(result)
 }
