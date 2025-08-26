@@ -4,12 +4,17 @@ import { handleLogin } from "./handlers/login.js";
 import { errorMiddlware } from "./middlewars/errors.js";
 import cookieParser from "cookie-parser";
 import { checkValidationMiddleware } from "./middlewars/authantication.js";
+import { handleOrdersList } from "./handlers/listOrders.js";
 const app = express();
 app.use(cookieParser());
-app.use(checkValidationMiddleware);
+// dont forget to add a five icon to your project cause browser automatically send this request
+app.get('/favicon.ico', (req, res) => res.status(204).end());
 app.use(express.static(configer.frontmainpath));
 app.use(express.json());
+// the cokkies will always check excpect if you make route request
 app.post("/api/login", handleLogin);
+app.use(checkValidationMiddleware);
+app.get("/api/orders", handleOrdersList);
 app.use(errorMiddlware);
 app.listen(configer.port, () => {
     console.log(`the server is know run on the ${configer.port}`);

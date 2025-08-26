@@ -6,24 +6,27 @@ export async function checkValidationMiddleware(req, res, nextFun) {
     if (req.path === "/api/login") {
         return nextFun();
     }
-    if (req.cookies.access_token) {
+    try {
+        if (!req.cookies.access_token) {
+            throw new Error;
+        }
         const data = validateJWT(req.cookies.access_token);
         req.user = data;
-        nextFun();
-        return;
+        return nextFun();
     }
-    if (req.cookies.refresh_token) {
-        const data = await checkRefreshTokenQ(req.cookies.refresh_token);
-        if (!data) {
-            throw new Unauthorized("the refresh token is already expired");
+    catch (err) {
+        if (req.cookies.refresh_token) {
+            const data = await checkRefreshTokenQ(req.cookies.refresh_token);
+            if (!data) {
+                throw new Unauthorized("the refresh token is already expired");
+            }
+            const new_access_token = makeJwt(data.shopId, data.admin);
+            res.setHeader("Set-Cookie", [
+                `access_token=${new_access_token}; HttpOnly; Secure; SameSite=Strict; Path=/api; Max-Age=${configer.accesstoekn}`,
+            ]);
+            req.user = data;
+            return nextFun();
         }
-        const new_access_token = makeJwt(data.shopId, data.admin);
-        res.setHeader("Set-Cookie", [
-            `access_token=${new_access_token}; HttpOnly; Secure; SameSite=Strict; Path=/; Max-Age=${configer.accesstoekn}`,
-        ]);
-        req.user = data;
-        nextFun();
-        return;
+        throw new Unauthorized(`the tokens are outedated : ${req.url} `);
     }
-    throw new Unauthorized("the refresh token and access tokens are outdated");
 }

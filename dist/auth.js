@@ -2,7 +2,6 @@ import { hash, compare } from "bcrypt";
 import JWT from "jsonwebtoken";
 import { configer } from "./config.js";
 import { randomBytes } from "crypto";
-import { Unauthorized } from "./errorClassess.js";
 const { sign, verify } = JWT;
 export function makeRefreshToken() {
     return randomBytes(configer.refreshtokenlength).toString("hex");
@@ -26,19 +25,14 @@ export function makeJwt(shopId, role) {
 }
 export function validateJWT(tokenstring) {
     let payload;
-    try {
-        payload = verify(tokenstring, configer.secretkey);
-        if (typeof payload === "string") {
-            throw new Error("it will not happen but i do it cause of the type script");
-        }
-        if (payload.sub == undefined) {
-            throw new Error("what the duck !! where is the shop id from JWT");
-        }
-        return { admin: payload.iss === "admin", shopId: payload.sub };
+    payload = verify(tokenstring, configer.secretkey);
+    if (typeof payload === "string") {
+        throw new Error("it will not happen but i do it cause of the type script");
     }
-    catch (err) {
-        throw new Unauthorized(`--the token is in valid : ${err.message}`);
+    if (payload.sub == undefined) {
+        throw new Error("what the duck !! where is the shop id from JWT");
     }
+    return { admin: payload.iss === "admin", shopId: payload.sub };
 }
 export async function hashPassword(password) {
     return await hash(password, 10);

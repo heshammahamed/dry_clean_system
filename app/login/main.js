@@ -29,8 +29,9 @@ form.addEventListener("submit" , async (e) => {
     })
 
 
-    if (response.status !== 200) {
-        
+    if (response.status === 200) {
+        window.location.replace('/main/')
+        return
     }
     
     console.log(`response status : ${response.status}`)

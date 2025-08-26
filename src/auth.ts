@@ -39,20 +39,17 @@ export function makeJwt (shopId : string ,role : boolean ) : string {
 
 export function validateJWT (tokenstring : string) : retutnFromValidate {
     let payload;
-    try {
-        payload  = verify(tokenstring , configer.secretkey)
-        if (typeof payload === "string") {
-            throw new Error("it will not happen but i do it cause of the type script")
-        }
+    payload  = verify(tokenstring , configer.secretkey)
 
-        if (payload.sub == undefined) {
-            throw new Error("what the duck !! where is the shop id from JWT")
-        }
-
-        return {admin : payload.iss === "admin", shopId : payload.sub}
-    }catch(err : any) {
-        throw new Unauthorized(`--the token is in valid : ${err.message}`)
+    if (typeof payload === "string") {
+        throw new Error("it will not happen but i do it cause of the type script")
     }
+
+    if (payload.sub == undefined) {
+        throw new Error("what the duck !! where is the shop id from JWT")
+    }
+
+    return {admin : payload.iss === "admin", shopId : payload.sub}
 }
 
 export async function hashPassword (password : string) : Promise<string> {

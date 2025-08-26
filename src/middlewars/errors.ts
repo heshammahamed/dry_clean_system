@@ -4,10 +4,10 @@ import path from "path";
 import { configer } from "../config.js";
 
 export function errorMiddlware (error : Error , req : Request , res : Response , nextFun : NextFunction) {
-    console.error(error.message);
+    console.error(error.message , req.baseUrl);
 
     if (error instanceof Unauthorized) {
-        return res.status(401).type("html").sendFile(path.join(configer.frontmainpath , 'login/index.html'))
+        return res.status(401).send()
     }
 
     if (error instanceof NotFound) {

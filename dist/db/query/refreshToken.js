@@ -9,6 +9,10 @@ export async function createRefreshTokenQ(userId, token) {
     const values = [token, userId, expireDate];
     try {
         const result = await pool.query(`
+            WITH deleted AS (
+                DELETE FROM refreshtokens WHERE userId = $2
+            )
+                
             INSERT INTO refreshtokens (token, userId, expiredAt)
             VALUES ($1, $2, $3)
             RETURNING *
@@ -25,7 +29,7 @@ export async function checkRefreshTokenQ(token) {
     try {
         const result = await pool.query(`SELECT admin, shopId
             FROM users
-            WHERE user_id IN (
+            WHERE id IN (
                 SELECT userid
                 FROM refreshtokens
                 WHERE token = $1

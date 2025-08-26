@@ -28,7 +28,6 @@ export async function handleLogin (req : Request , res : Response) {
     }
 
     const user : usersD | undefined = await getUserData(req.body.phonenumber)
-
     if (!user) {
         // wrong inputs
         throw new NotFound ("رقم التليفون غلط")
@@ -43,7 +42,7 @@ export async function handleLogin (req : Request , res : Response) {
         create access token refresh token and set them as ckokiess
     */
 
-    const access_token : string = makeJwt(user.shopId , user.owner)
+    const access_token : string = makeJwt(user.shopid , user.owner)
 
     const refresh_token : string = makeRefreshToken()
     const token_db : string | undefined = await createRefreshTokenQ(user.id , refresh_token)

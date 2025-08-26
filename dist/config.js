@@ -3,7 +3,7 @@ import path from "path";
 process.loadEnvFile('.env');
 //  here there is alot of error handling that will close system
 if (!process.env.PORT || !process.env.DB_PASSWORD || !process.env.ACCESS_TOKEN_DURATION || !process.env.SECRET_KEY_TOKEN || !process.env.REFRESH_TOKEN_LENGTH || !process.env.REFRESH_TOKEN_DURATION) {
-    console.error("❌ Missing environment variables. Exiting...");
+    console.error("Missing environment variables. Exiting...");
     process.exit(1);
 }
 const port = Number(process.env.PORT);

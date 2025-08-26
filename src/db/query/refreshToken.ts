@@ -41,7 +41,7 @@ export async function checkRefreshTokenQ(token : string) : Promise<retutnFromVal
         const result = await pool.query(
           `SELECT admin, shopId
             FROM users
-            WHERE user_id IN (
+            WHERE id IN (
                 SELECT userid
                 FROM refreshtokens
                 WHERE token = $1
