@@ -7,6 +7,7 @@ import { checkValidationMiddleware } from "./middlewars/authantication.js"
 import { handleOrdersList } from "./handlers/listOrders.js"
 import {  handleCustomerOrder } from "./handlers/customersOrders.js"
 import { handleDelevired } from "./handlers/handleDelevired.js"
+import { handleDone } from "./handlers/handleDone.js"
 const app = express();
 app.use(cookieParser())
 
@@ -25,6 +26,7 @@ app.get("/api/orders" , handleOrdersList);
 app.get("/api/customerOrders" , handleCustomerOrder);
 
 app.get("/api/delevired" , handleDelevired);
+app.get("/api/done" , handleDone);
 
 app.use(errorMiddlware)
 app.listen(configer.port , () => {

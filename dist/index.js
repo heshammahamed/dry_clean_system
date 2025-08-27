@@ -6,6 +6,7 @@ import cookieParser from "cookie-parser";
 import { handleOrdersList } from "./handlers/listOrders.js";
 import { handleCustomerOrder } from "./handlers/customersOrders.js";
 import { handleDelevired } from "./handlers/handleDelevired.js";
+import { handleDone } from "./handlers/handleDone.js";
 const app = express();
 app.use(cookieParser());
 // dont forget to add a five icon to your project cause browser automatically send this request
@@ -18,6 +19,7 @@ app.post("/api/login", handleLogin);
 app.get("/api/orders", handleOrdersList);
 app.get("/api/customerOrders", handleCustomerOrder);
 app.get("/api/delevired", handleDelevired);
+app.get("/api/done", handleDone);
 app.use(errorMiddlware);
 app.listen(configer.port, () => {
     console.log(`the server is know run on the ${configer.port}`);
