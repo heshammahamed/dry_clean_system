@@ -7,6 +7,7 @@ import { handleOrdersList } from "./handlers/listOrders.js";
 import { handleCustomerOrder } from "./handlers/customersOrders.js";
 import { handleDelevired } from "./handlers/handleDelevired.js";
 import { handleDone } from "./handlers/handleDone.js";
+import { handleDoneNotDelevierd } from "./handlers/h_doneButNotDelevired.js";
 const app = express();
 app.use(cookieParser());
 // dont forget to add a five icon to your project cause browser automatically send this request
@@ -17,6 +18,7 @@ app.use(express.json());
 app.post("/api/login", handleLogin);
 // app.use(checkValidationMiddleware)
 app.get("/api/orders", handleOrdersList);
+app.get("/api/doneNotDelevired", handleDoneNotDelevierd);
 app.get("/api/customerOrders", handleCustomerOrder);
 app.get("/api/delevired", handleDelevired);
 app.get("/api/done", handleDone);

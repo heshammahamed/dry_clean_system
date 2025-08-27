@@ -27,7 +27,6 @@ export async function getCustomerData (phonenumber : string , username : string 
               AND o.delevired = false
             ORDER BY o.day_receive ASC , o.hour_receive ASC
         `, [value, shopId]);
-        console.log(result.rowCount)
         return result.rows
     }catch (err) {
         throw new Error(`db error in find oredes of the customre : ${err}`)

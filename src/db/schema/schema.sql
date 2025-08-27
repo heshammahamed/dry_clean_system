@@ -38,7 +38,7 @@ CREATE TABLE orders (
     id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
     price_total NUMERIC(10,2),
     prepaid NUMERIC(10,2),
-    status_ boolean DEFAULT false,
+    done boolean DEFAULT false,
     day_receive DATE,
     hour_receive TIME,
     shopId uuid NOT NULL REFERENCES shops(id),
