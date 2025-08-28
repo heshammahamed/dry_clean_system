@@ -9,6 +9,7 @@ import {  handleCustomerOrder } from "./handlers/customersOrders.js"
 import { handleDelevired } from "./handlers/handleDelevired.js"
 import { handleDone } from "./handlers/handleDone.js"
 import { handleDoneNotDelevierd } from "./handlers/h_doneButNotDelevired.js"
+import { handlePassedOrders } from "./handlers/h_passedOrders.js"
 
 const app = express();
 app.use(cookieParser())
@@ -27,6 +28,7 @@ app.use(checkValidationMiddleware)
 app.get("/api/orders" , handleOrdersList);
 app.get("/api/doneNotDelevired" , handleDoneNotDelevierd);
 app.get("/api/customerOrders" , handleCustomerOrder);
+app.get("/api/passedOrders" , handlePassedOrders);
 
 app.get("/api/delevired" , handleDelevired);
 app.get("/api/done" , handleDone);
