@@ -20,7 +20,7 @@ CREATE TABLE shops (
     id uuid PRIMARY KEY,
     name varchar(50) NOT NULL,
     latitude double precision NOT NULL,
-    longitude double precision NOT NULL
+    longitude double precision NOT NULL,
 );
 
 -- the phone number will not be the primary cause not all customers will have phones
@@ -45,5 +45,22 @@ CREATE TABLE orders (
     customerId uuid NOT NULL REFERENCES customers(id),
     delevired boolean DEFAULT false
 ) 
+
+-- for know in front 1 will be wash 2 will be iron
+CREATE TABLE services (
+    id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+    name varchar(250) NOT NULL,
+    price NUMERIC(10,2) NOT NULL,
+    catego NUMERIC(1),
+    shopId uuid NOT NULL REFERENCES shops(id)
+)
+
+CREATE TABLE order_line (
+    id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+    orderId uuid NOT NULL REFERENCES orders(id),
+    servicesId uuid NOT NULL REFERENCES services(id),
+    qty NUMERIC(100) NOT NULL DEFAULT 1,
+    line_price NUMERIC(10,2)
+);
 
 CREATE EXTENSION IF NOT EXISTS "pgcrypto";

@@ -1,9 +1,6 @@
 import { pool } from "../db.js";
 export async function passedOrdersQ(shopId) {
     try {
-        const now = new Date();
-        const date = now.toISOString().split("T")[0];
-        const time = now.toTimeString().split(" ")[0];
         const result = await pool.query(`
             SELECT *
             FROM orders

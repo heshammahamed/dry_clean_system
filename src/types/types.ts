@@ -28,3 +28,9 @@ export type orderAndcustomerData = {
     name : string,
     phonenumber : string
 }
+export type services = {
+    id : string,
+    name : string,
+    price : number,
+    catego  : number,
+}
