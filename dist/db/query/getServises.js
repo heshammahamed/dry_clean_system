@@ -1,7 +1,7 @@
 import { pool } from "../db.js";
 export async function getServicesQ(shopId) {
     try {
-        const result = await pool.query(`SELECT * FROM services WHERE shopId=$1`, [shopId]);
+        const result = await pool.query(`SELECT id , name , price , catego FROM services WHERE shopId=$1`, [shopId]);
         return result.rows;
     }
     catch (err) {

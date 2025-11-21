@@ -28,6 +28,7 @@ export async function handleLogin (req : Request , res : Response) {
     }
 
     const user : usersD | undefined = await getUserData(req.body.phonenumber)
+    
     if (!user) {
         // wrong inputs
         throw new NotFound ("رقم التليفون غلط")
@@ -49,9 +50,10 @@ export async function handleLogin (req : Request , res : Response) {
 
     res.setHeader("Set-Cookie", [
       `access_token=${access_token}; HttpOnly; Secure; SameSite=Strict; Path=/api; Max-Age=${configer.accesstoekn}`,
-      `refresh_token=${refresh_token}; HttpOnly; Secure; SameSite=Strict; Path=/api; Max-Age=${configer.refreshtokenduration}`,
+      `refresh_token=${token_db}; HttpOnly; Secure; SameSite=Strict; Path=/api; Max-Age=${configer.refreshtokenduration}`,
     ]);
 
-    res.type("html").sendFile(path.join(configer.frontmainpath , 'main/index.html'))
+    // res.type("html").sendFile(path.join(configer.frontmainpath , 'main/index.html'))
+    res.status(200).send()          
     return
 }

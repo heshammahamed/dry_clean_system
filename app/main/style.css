@@ -1,0 +1,22 @@
+* {
+    box-sizing: border-box;
+    margin: 0px;
+    padding: 0px ;
+}
+header{
+    width: 100%;
+    border-bottom: 1px solid gray;
+    padding: 1.5em 1em;
+}
+header section {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+p {
+    font-weight: bold;
+    font-size: 2rem;
+}
+#date {
+    padding-top: 6px;
+}

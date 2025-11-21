@@ -3,6 +3,7 @@ import express from "express";
 import { handleLogin } from "./handlers/login.js";
 import { errorMiddlware } from "./middlewars/errors.js";
 import cookieParser from "cookie-parser";
+import { checkValidationMiddleware } from "./middlewars/authantication.js";
 import { handleOrdersList } from "./handlers/listOrders.js";
 import { handleCustomerOrder } from "./handlers/customersOrders.js";
 import { handleDelevired } from "./handlers/handleDelevired.js";
@@ -18,7 +19,7 @@ app.use(express.static(configer.frontmainpath));
 app.use(express.json());
 // the cokkies will always check excpect if you make route request
 app.post("/api/login", handleLogin);
-// app.use(checkValidationMiddleware)
+app.use(checkValidationMiddleware);
 app.get("/api/orders", handleOrdersList);
 app.get("/api/doneNotDelevired", handleDoneNotDelevierd);
 app.get("/api/customerOrders", handleCustomerOrder);

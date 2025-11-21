@@ -1,9 +1,13 @@
 import { getListOrdersQ } from "../db/query/getListOrders.js";
+import { Unauthorized } from "../errorClassess.js";
 /*
     the inputs will must be there and in the correct
      formate so its not need to make conditions for it
 */
 export async function handleOrdersList(req, res) {
+    if (!req.user) {
+        throw new Unauthorized("you need to relogin");
+    }
     // you must be sure that the query is sent
     if (typeof req.query.date == "string") {
         const result = await getListOrdersQ(req.user.shopId, req.query.date);

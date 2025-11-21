@@ -23,7 +23,7 @@ app.use(express.json())
 
 app.post("/api/login" , handleLogin);
 
-// app.use(checkValidationMiddleware)
+app.use(checkValidationMiddleware)
 
 app.get("/api/orders" , handleOrdersList);
 app.get("/api/doneNotDelevired" , handleDoneNotDelevierd);

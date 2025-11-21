@@ -9,6 +9,8 @@
         }
         label {
             padding-bottom: .75rem; 
+            font-size: larger;
+            font-weight: 700;
         }
         input {
             margin-bottom: 1.25rem;
@@ -21,7 +23,13 @@
         }
         #submit_botton{
             margin: auto;
-            width : 50%;
+            width : 100%;
+            font-size: larger;
+            font-weight: 700;
+        }
+        form {
+            border : 1px solid green;
+            padding : 1rem
         }
 
     </style>
@@ -30,7 +38,7 @@
 <body>
     <form id="form_submit">
         <label for="u-n">رقم التليفون</label>
-        <input type="number" name="phonenumber" value="01" id="u_n" required>
+        <input type="number" name="phonenumber" id="u_n" required>
         <label for ="u_p">كلمه السر</label>
         <input type="password" name="password" id="u_p" required>
         <input type="submit" id="submit_botton" value="تسجيل"/>

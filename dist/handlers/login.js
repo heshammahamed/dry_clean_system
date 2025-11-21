@@ -3,7 +3,6 @@ import { getUserData } from "../db/query/getUserData.js";
 import { createRefreshTokenQ } from "../db/query/refreshToken.js";
 import { configer } from "../config.js";
 import { BadRequest, NotFound } from "../errorClassess.js";
-import path from "path";
 /*
 (1)
     check the usernama and the password for the given request are exist
@@ -38,8 +37,9 @@ export async function handleLogin(req, res) {
     const token_db = await createRefreshTokenQ(user.id, refresh_token);
     res.setHeader("Set-Cookie", [
         `access_token=${access_token}; HttpOnly; Secure; SameSite=Strict; Path=/api; Max-Age=${configer.accesstoekn}`,
-        `refresh_token=${refresh_token}; HttpOnly; Secure; SameSite=Strict; Path=/api; Max-Age=${configer.refreshtokenduration}`,
+        `refresh_token=${token_db}; HttpOnly; Secure; SameSite=Strict; Path=/api; Max-Age=${configer.refreshtokenduration}`,
     ]);
-    res.type("html").sendFile(path.join(configer.frontmainpath, 'main/index.html'));
+    // res.type("html").sendFile(path.join(configer.frontmainpath , 'main/index.html'))
+    res.status(200).send();
     return;
 }
