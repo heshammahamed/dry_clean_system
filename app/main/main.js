@@ -1,4 +1,5 @@
 const date_ele = document.getElementById("date")
+const list_ele = document.getElementById("list")
 
 setDate()
 
@@ -13,20 +14,36 @@ function setDate () {
 }
 
 
+function list_content (data) {
+    if (data.length === 0) {
+        list_ele.innerHTML = `<p class ="empty">` + `كل طلبات النهارده جاهزه للتسليم` + `</p>` 
+    }else {
+        data.forEach(element => {
+            list_ele.innerHTML+=`<div>${element.id}</div>`
+        });
+    }
+}
+
 (async () => {
-            try {
-                const response = await fetch("http://localhost:8010/api/orders/?date=2025-08-26");
 
-                // what about the other possible errors
-                if (response.status == 401) {
-                    window.location.replace("/login/");
-                    return
-                }
+            const response = await fetch("http://localhost:8010/api/orders/?date=2025-08-29");
 
-                const data = await response.json()
+            // what about the other possible errors
+            if (response.status == 401) {
+                window.location.replace("/login/");
                 return
-            }catch(err) {
-                console.log(err)
             }
+
+            if (response.status == 500) {
+                window.location.replace("/login/");
+                return
+            }
+
+            const data = await response.json()
+
+            console.log(data)
+
+            list_content(data)
+            return
 
         })();
