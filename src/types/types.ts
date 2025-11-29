@@ -8,8 +8,7 @@ export type order = {
     total_price : number,
     prepaid : number,
     done  : boolean,
-    day_receive : string,
-    hour_receive  : string,
+    deliver_at : string,
     customerId : string,
     shopID : string,
     delevired : boolean
@@ -20,8 +19,7 @@ export type orderAndcustomerData = {
     total_price : number,
     prepaid : number,
     done  : boolean,
-    day_receive : string,
-    hour_receive  : string,
+    deliver_at : string,
     customerId : string,
     shopID : string,
     delevired : boolean,
@@ -33,4 +31,9 @@ export type services = {
     name : string,
     price : number,
     catego  : number,
+}
+
+type cursor = {
+    delivery_at: String,
+    id: string
 }
