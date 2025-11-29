@@ -33,7 +33,7 @@ export type services = {
     catego  : number,
 }
 
-type cursor = {
+export type cursor = {
     delivery_at: String,
     id: string
 }
