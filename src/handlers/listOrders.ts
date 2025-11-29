@@ -8,17 +8,17 @@ import { Unauthorized } from "../errorClassess.js";
 
 
 /*
-    this end point will not take any thing and it will return all orders that not finished
-
-    
+    this end point will not send all the records .
+    i will use cursour pagination
 */
 export async function handleOrdersList (req : Request , res : Response) {
     if (! (req as any).user) {
         throw new Unauthorized("you need to relogin")
     }
+
     // you must be sure that the query is sent
-    if (typeof req.query.date == "string") {
-        const result = await getListOrdersQ((req as any).user.shopId ,req.query.date)
+    if (typeof req.query.from === "string" || req.query.from === null) {
+        const result = await getListOrdersQ((req as any).user.shopId ,req.query.from)
         res.setHeader("Control-Control" , "public , max-age=30");
         return res.status(200).json(result)
     }else {

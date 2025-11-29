@@ -25,7 +25,7 @@ export async function getCustomerData (phonenumber : string , username : string 
             WHERE c.${column} = $1
               AND c.shopId = $2
               AND o.delevired = false
-            ORDER BY o.day_receive ASC , o.hour_receive ASC
+            ORDER BY o.deliver_at ASC
         `, [value, shopId]);
         return result.rows
     }catch (err) {

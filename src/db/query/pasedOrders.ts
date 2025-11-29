@@ -8,11 +8,8 @@ export async function passedOrdersQ(shopId : string) : Promise<Array<order>> {
             SELECT *
             FROM orders
             WHERE shopId = $1
-              AND (
-                    day_receive < CURRENT_DATE
-                    OR (day_receive = CURRENT_DATE AND hour_receive < CURRENT_TIME)
-                )
-              AND done = false
+            AND deliver_at < CURRENT_TIMESTAMP
+            AND done = false
         ` , [shopId])
         return result.rows
     }catch (err : any) {

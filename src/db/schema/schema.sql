@@ -41,6 +41,7 @@ CREATE TABLE orders (
     done boolean DEFAULT false,
     day_receive DATE,
     hour_receive TIME,
+    deliver_at TIMESTAMP,
     shopId uuid NOT NULL REFERENCES shops(id),
     customerId uuid NOT NULL REFERENCES customers(id),
     delevired boolean DEFAULT false
