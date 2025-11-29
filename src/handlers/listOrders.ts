@@ -1,29 +1,41 @@
 import { Request , Response , NextFunction } from "express";
 import { getListOrdersQ } from "../db/query/getListOrders.js"
 import { Unauthorized } from "../errorClassess.js";
-/*
-    the inputs will must be there and in the correct
-     formate so its not need to make conditions for it
-*/
+import { cursor, order } from "../types/types.js";
 
-
-/*
-    this end point will not take any thing and it will return all orders that not finished
-
-    
-*/
 export async function handleOrdersList (req : Request , res : Response) {
+    const limit = 20;
+    let result : order[] = [] ;
+    let next_cursor_token :  null | string = null;
+
     if (! (req as any).user) {
         throw new Unauthorized("you need to relogin")
     }
-    // you must be sure that the query is sent
-    if (typeof req.query.date == "string") {
-        const result = await getListOrdersQ((req as any).user.shopId ,req.query.date)
-        res.setHeader("Control-Control" , "public , max-age=30");
-        return res.status(200).json(result)
-    }else {
-        throw new Error("shit!!")
+
+    if (!req.query.cursor) {
+        result = await getListOrdersQ((req as any).user.shopId ,null , limit)
     }
+
+    if (typeof req.query.cursor === "string") {
+        const decoded = Buffer.from(req.query.cursor, 'base64').toString('utf-8');
+        const cursorObj : cursor = JSON.parse(decoded);
+
+        result = await getListOrdersQ((req as any).user.shopId ,cursorObj , limit)
+    }
+
+    if (result.length == limit) {
+        const last_index = result[result.length - 1]
+        const next_cursor : cursor = {
+            delivery_at : last_index.deliver_at,
+            id : last_index.id
+        }
+        next_cursor_token = Buffer.from(JSON.stringify(next_cursor)).toString('base64')
+    }
+
+    res.status(200).json({
+        data : result,
+        next : next_cursor_token
+    })
 }
     
 
